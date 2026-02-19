@@ -2,6 +2,9 @@
   "name": "mi-amor",
   "version": "1.0.0",
   "scripts": {
-    "start": "npx serve . -l $PORT"
+    "start": "serve -s . -l $PORT"
+  },
+  "dependencies": {
+    "serve": "^14.2.5"
   }
 }

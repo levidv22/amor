@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Nuestro Amor 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background: radial-gradient(circle at top, #ffe3ef, #ffc2dc);
+    color:#0c090a;
+    overflow-x:hidden;
+}
+
+/* ===== MENSAJES DINÁMICOS ===== */
+
+.message-section{
+    text-align:center;
+    font-size:clamp(1.1rem,2.5vw,1.6rem);
+    font-weight:600;
+    margin:20px 0 40px 0;
+    min-height:60px;
+    transition:opacity 1s ease;
+    opacity:1;
+    color:#020001;
+}
+
+/* ===== YOUTUBE ===== */
+
+.youtube-container{
+    position:fixed;
+    top:20px;
+    right:20px;
+    width:300px;
+    z-index:1000;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,0.3);
+}
+
+.youtube-container iframe{
+    width:100%;
+    height:170px;
+    border:none;
+}
+
+.music-btn{
+    position:fixed;
+    top:200px;
+    right:20px;
+    z-index:1001;
+}
+
+/* ===== HEADER ===== */
+
+.header{
+    text-align:center;
+    padding:80px 20px 30px;
+}
+
+.header h1{
+    font-weight:700;
+    font-size:clamp(2rem,5vw,3rem);
+}
+
+/* ===== CORAZÓN ===== */
+
+.heart-section{
+    position:relative;
+    width:100%;
+    min-height:650px;
+    margin-top:-120px;
+    padding-top:0;
+}
+
+/* ===== MEDIA ===== */
+
+.media-item{
+    position:absolute;
+    width:clamp(60px,7vw,110px);
+    height:clamp(60px,7vw,110px);
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    transition:transform 0.5s ease;
+    z-index:1;
+}
+
+.media-item img,
+.media-item video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.media-item:hover{
+    transform:scale(1.15);
+    z-index:5;
+}
+
+/* ===== CONTADOR ===== */
+
+.counter-center{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    backdrop-filter:blur(20px);
+    background:rgba(255,255,255,0.75);
+    padding:30px 40px;
+    border-radius:30px;
+    box-shadow:0 20px 45px rgba(0,0,0,0.25);
+    text-align:center;
+    z-index:10;
+    width:90%;
+    max-width:400px;
+}
+
+.time{
+    font-size:clamp(1.2rem,3vw,1.8rem);
+    font-weight:700;
+    color:#080808;
+}
+
+.label{
+    font-size:0.8rem;
+    color:#444;
+}
+
+.counter-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media(max-width:768px){
+
+    .youtube-container{
+        position:relative;
+        width:100%;
+        top:0;
+        right:0;
+        margin-bottom:20px;
+    }
+
+    .music-btn{
+        position:relative;
+        top:0;
+        right:0;
+        margin-bottom:20px;
+    }
+
+    .heart-section{
+        height:auto;
+        padding-bottom:100px;
+    }
+
+    .counter-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container text-center">
+
+    <div class="header">
+        <h1>💖 Amor 💖</h1>
+    </div>
+
+    <!-- ===== MENSAJE DINÁMICO ===== -->
+    <div class="message-section" id="loveMessage"></div>
+
+    <!-- BOTÓN MÚSICA -->
+    <button class="btn btn-pink music-btn btn-lg" onclick="activarMusica()">
+    </button>
+
+    <!-- YOUTUBE -->
+    <div class="youtube-container">
+        <iframe id="ytplayer"
+        src="https://www.youtube.com/embed/BksBNbTIoPE?enablejsapi=1"
+        allow="autoplay">
+        </iframe>
+    </div>
+
+    <div class="heart-section" id="heart">
+
+        <div class="counter-center">
+            <div class="counter-grid">
+                <div><div class="time" id="years"></div><div class="label">Años</div></div>
+                <div><div class="time" id="months"></div><div class="label">Meses</div></div>
+                <div><div class="time" id="days"></div><div class="label">Días</div></div>
+                <div><div class="time" id="hours"></div><div class="label">Horas</div></div>
+                <div><div class="time" id="minutes"></div><div class="label">Minutos</div></div>
+                <div><div class="time" id="seconds"></div><div class="label">Segundos</div></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* ===== MENSAJES ===== */
+
+const frases = [
+"Te amo más de lo que las palabras pueden explicar 💖",
+"Eres mi lugar favorito en el mundo 🌎",
+"Contigo cada día es especial ✨",
+"Gracias por existir en mi vida ❤️",
+"Eres mi mejor decisión ❤️",
+"Mi corazón siempre será tuyo 💕",
+"Eres mi paz en medio del caos 🌸",
+"No necesito nada más si te tengo a ti 💞",
+"Eres mi sueño hecho realidad 💭",
+"Cada segundo contigo vale oro ⏳",
+"Tu sonrisa ilumina mis días ☀️",
+"Eres mi hogar 🏡",
+"Amarte es lo más bonito que me ha pasado 💘",
+"Siempre quiero caminar contigo 🤍",
+"Contigo todo es mejor 💗",
+"Mi mundo empieza y termina contigo 🌷",
+"Eres mi persona favorita 💓",
+"Nunca dejaré de elegirte 💝",
+"Cada mes contigo es un regalo 🎁",
+"Falta poco para cumplir un mes más juntos 💞"
+];
+
+const messageElement = document.getElementById("loveMessage");
+const startDate = new Date("September 21, 2023 13:00:00");
+
+function actualizarMensaje(){
+
+    const now = new Date();
+
+    if(now.getDate() === 21){
+
+        let years = now.getFullYear() - startDate.getFullYear();
+        let months = now.getMonth() - startDate.getMonth();
+
+        if(months < 0){
+            years--;
+            months += 12;
+        }
+
+        messageElement.innerHTML =
+        `💖 Hoy celebramos ${years} año(s) y ${months} mes(es) juntos 💖`;
+
+    }else{
+
+        let index = 0;
+        messageElement.innerHTML = frases[index];
+
+        setInterval(()=>{
+            messageElement.style.opacity = 0;
+
+            setTimeout(()=>{
+                index = (index + 1) % frases.length;
+                messageElement.innerHTML = frases[index];
+                messageElement.style.opacity = 1;
+            },800);
+
+        },5000);
+    }
+}
+
+actualizarMensaje();
+
+/* ===== ACTIVAR MÚSICA ===== */
+
+function activarMusica(){
+    const iframe = document.getElementById("ytplayer");
+    iframe.src += "&autoplay=1";
+}
+
+/* ===== CONTADOR ===== */
+
+function updateCounter(){
+    const now = new Date();
+    const diff = now - startDate;
+
+    const years = now.getFullYear() - startDate.getFullYear() - 
+        (now < new Date(now.getFullYear(), startDate.getMonth(), startDate.getDate()) ? 1 : 0);
+
+    let months = (now.getMonth() - startDate.getMonth() + 12) % 12;
+    if(now.getDate() < startDate.getDate()) months--;
+
+    const days = Math.floor(diff/(1000*60*60*24));
+    const hours = Math.floor((diff/(1000*60*60))%24);
+    const minutes = Math.floor((diff/(1000*60))%60);
+    const seconds = Math.floor((diff/1000)%60);
+
+    document.getElementById("years").innerText = years;
+    document.getElementById("months").innerText = months;
+    document.getElementById("days").innerText = days;
+    document.getElementById("hours").innerText = hours;
+    document.getElementById("minutes").innerText = minutes;
+    document.getElementById("seconds").innerText = seconds;
+}
+
+setInterval(updateCounter,1000);
+updateCounter();
+
+/* ===== CORAZÓN ===== */
+
+const mediaFiles = [
+"media/foto1.jpeg","media/foto2.jpeg","media/foto3.jpeg","media/foto4.jpeg","media/foto5.jpeg",
+"media/foto6.jpeg","media/foto7.jpeg","media/foto8.jpeg","media/foto9.jpeg","media/foto10.jpeg",
+"media/foto11.jpeg","media/foto12.jpeg","media/foto13.jpeg","media/foto14.jpeg","media/foto15.jpeg",
+"media/foto16.jpeg","media/foto17.jpeg","media/foto18.jpeg",
+"media/video1.mp4","media/video2.mp4"
+];
+
+const heartContainer = document.getElementById("heart");
+
+function createHeart(){
+
+    heartContainer.querySelectorAll(".media-item").forEach(e=>e.remove());
+
+    const width = heartContainer.offsetWidth;
+    const height = heartContainer.offsetHeight;
+
+    const centerX = width/2;
+    const centerY = height/2 + 20;
+    const scale = Math.min(width,height)/40;
+
+    mediaFiles.forEach((file,i)=>{
+
+        const t = (i/mediaFiles.length)*Math.PI*2;
+
+        const x = 16*Math.pow(Math.sin(t),3);
+        const y = 13*Math.cos(t) - 5*Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t);
+
+        const item = document.createElement("div");
+        item.className="media-item";
+
+        item.style.left=(centerX + x*scale - 50)+"px";
+        item.style.top=(centerY - y*scale - 50)+"px";
+
+        if(file.endsWith(".mp4")){
+            item.innerHTML=`<video src="${file}" autoplay muted loop></video>`;
+        }else{
+            item.innerHTML=`<img src="${file}">`;
+        }
+
+        heartContainer.appendChild(item);
+    });
+
+}
+
+createHeart();
+window.addEventListener("resize",createHeart);
+
+</script>
+
+</body>
+</html>
